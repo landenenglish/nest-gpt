@@ -12,13 +12,16 @@ export class OpenaiService {
   }
 
   async generateResponse(prompt: string): Promise<string> {
-    const response = await this.openai.completions.create({
-      model: 'text-davinci-003',
-      prompt: prompt,
-      max_tokens: 150,
-      temperature: 0.7,
+    const response = await this.openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'user',
+          content: prompt,
+        },
+      ],
     })
 
-    return response.choices[0].text.trim()
+    return response.choices[0].message.content
   }
 }
